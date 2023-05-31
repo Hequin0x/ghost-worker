@@ -1,6 +1,6 @@
 import { IRequest } from 'itty-router';
 import { purgeCacheByURL } from '../../../services/zone/purge-cache';
-import { PostUpdatedModel } from '../../../models/ghost/post/post-updated-model';
+import { PostCreateUpdateModel } from '../../../models/ghost/post/post-create-update-model';
 import HostUtils from '../../../utils/HostUtils';
 
 /**
@@ -10,7 +10,7 @@ import HostUtils from '../../../utils/HostUtils';
  * @constructor
  */
 async function PostPublished(request: IRequest, env: Env){
-  const publishedPost: PostUpdatedModel = await request.json();
+  const publishedPost: PostCreateUpdateModel = await request.json();
 
   if (!publishedPost) {
     return new Response('Post is required.', { status: 400 });

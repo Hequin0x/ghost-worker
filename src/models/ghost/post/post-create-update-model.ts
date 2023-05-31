@@ -1,6 +1,6 @@
 import { PostModel } from './post-model';
 
-export interface PostUpdatedModel {
+export interface PostCreateUpdateModel {
   post: PostCurrentModel;
 }
 
