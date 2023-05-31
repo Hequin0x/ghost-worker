@@ -9,7 +9,7 @@ import HostUtils from '../../../utils/HostUtils';
  * @param env
  * @constructor
  */
-async function PostUpdated(request: IRequest, env: Env){
+async function PostUpdated(request: IRequest, env: Env): Promise<Response>{
   const updatedPost: PostCreateUpdateModel = await request.json();
 
   if (!updatedPost) {

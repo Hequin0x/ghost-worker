@@ -1,4 +1,4 @@
-export async function purgeCacheByURL(URLs: string[], env: Env) {
+export async function purgeCacheByURL(URLs: string[], env: Env): Promise<Response> {
   const zoneID = env.CLOUDFLARE_ZONE_ID;
   const body = `{"files": ${JSON.stringify(URLs)}}`;
 
@@ -7,7 +7,7 @@ export async function purgeCacheByURL(URLs: string[], env: Env) {
   return execute(body, env);
 }
 
-export async function purgeAllCache(env: Env) {
+export async function purgeAllCache(env: Env): Promise<Response> {
   const zoneID = env.CLOUDFLARE_ZONE_ID;
   const body = `{"purge_everything": ${true}}`;
 
@@ -16,7 +16,7 @@ export async function purgeAllCache(env: Env) {
   return execute(body, env);
 }
 
-async function execute(body: string, env: Env) {
+async function execute(body: string, env: Env): Promise<Response> {
   const apiToken = env.CLOUDFLARE_API_TOKEN;
   const zoneID = env.CLOUDFLARE_ZONE_ID;
 
