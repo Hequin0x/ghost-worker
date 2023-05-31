@@ -19,7 +19,9 @@ export async function purgeAllCache(zoneID: string) {
 }
 
 async function execute(body: {}, zoneID: string) {
-  if (!zoneID) throw new Error('Zone ID is required.');
+  if (!zoneID) {
+    return new Response('Zone ID is required.', { status: 400 })
+  }
 
   const url = `https://api.cloudflare.com/client/v4/zones/${zoneID}/purge_cache`;
   const headers = {
