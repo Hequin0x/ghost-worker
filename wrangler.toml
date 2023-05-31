@@ -39,4 +39,4 @@ compatibility_date = "2023-05-30"
 # [env.shared]
 # SHARED_VARIABLE = "shared_value"
 [vars]
-CLOUDFLARE_ZONE_ID = ""
+CLOUDFLARE_ZONE_ID = "6650e3ff18619c39915157b6b3b197bf"

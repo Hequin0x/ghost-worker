@@ -1,31 +1,37 @@
-export async function purgeCacheByURL(URLs: string[], zoneID: string) {
-  const body = {
-    'files': URLs
-  };
+export async function purgeCacheByURL(URLs: string[], env: Env) {
+  const zoneID = env.CLOUDFLARE_ZONE_ID;
+  const body = `{"files": ${JSON.stringify(URLs)}}`;
 
-  console.log(`Purging URLs: ${body.files} from cache for zone: ${zoneID}.`);
+  console.log(`Purging URLs: ${URLs} from cache for zone: ${zoneID}.`);
 
-  return execute(body.files, zoneID);
+  return execute(body, env);
 }
 
-export async function purgeAllCache(zoneID: string) {
-  const body = {
-    'purge_everything': true
-  };
+export async function purgeAllCache(env: Env) {
+  const zoneID = env.CLOUDFLARE_ZONE_ID;
+  const body = `{"purge_everything": ${true}}`;
 
   console.log(`Purging all cache for zone: ${zoneID}.`);
 
-  return execute(body, zoneID);
+  return execute(body, env);
 }
 
-async function execute(body: {}, zoneID: string) {
+async function execute(body: string, env: Env) {
+  const apiToken = env.CLOUDFLARE_API_TOKEN;
+  const zoneID = env.CLOUDFLARE_ZONE_ID;
+
+  if (!apiToken) {
+    return new Response('API Token is required.', { status: 400 })
+  }
+
   if (!zoneID) {
     return new Response('Zone ID is required.', { status: 400 })
   }
 
   const url = `https://api.cloudflare.com/client/v4/zones/${zoneID}/purge_cache`;
   const headers = {
-    'X-Auth-Email': ' '  // Cloudflare email
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${apiToken}`
   };
 
   const response = await fetch(url, {
