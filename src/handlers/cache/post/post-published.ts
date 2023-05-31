@@ -4,19 +4,19 @@ import { PostUpdatedModel } from '../../../models/ghost/post/post-updated-model'
 import HostUtils from '../../../utils/HostUtils';
 
 /**
- * Purge cache for post created.
+ * Purge cache for post published.
  * @param request
  * @param env
  * @constructor
  */
-async function PostCreated(request: IRequest, env: Env){
-  const createdPost: PostUpdatedModel = await request.json();
+async function PostPublished(request: IRequest, env: Env){
+  const publishedPost: PostUpdatedModel = await request.json();
 
-  if (!createdPost) {
+  if (!publishedPost) {
     return new Response('Post is required.', { status: 400 });
   }
 
-  const postURL: string = createdPost.post.current.url;
+  const postURL: string = publishedPost.post.current.url;
 
   if (!postURL) {
     return new Response('Post URL is required.', { status: 400 });
@@ -33,4 +33,4 @@ async function PostCreated(request: IRequest, env: Env){
   return purgeCacheByURL(urlsToPurge, env);
 }
 
-export default PostCreated;
+export default PostPublished;
