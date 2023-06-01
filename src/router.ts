@@ -8,6 +8,7 @@ const router = Router();
 // Post cache purge
 router.post('/api/cache/post/updated', PostUpdated);
 router.post('/api/cache/post/published', PostPublished);
+//router.post('/api/cache/post/deleted', PostDeleted);
 
 // Site cache purge
 router.post('/api/cache/site/settings/updated', SettingsUpdated);

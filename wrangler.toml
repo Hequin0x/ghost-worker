@@ -4,6 +4,3 @@ compatibility_date = "2023-05-30"
 
 [placement]
 mode = "smart"
-
-[vars]
-CLOUDFLARE_ZONE_ID = "6650e3ff18619c39915157b6b3b197bf"
