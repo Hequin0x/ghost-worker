@@ -1,3 +1,5 @@
+import { error } from 'itty-router';
+
 export async function purgeCacheByURL(URLs: string[], env: Env): Promise<Response> {
   const zoneID = env.CLOUDFLARE_ZONE_ID;
   const body = `{"files": ${JSON.stringify(URLs)}}`;
@@ -21,11 +23,11 @@ async function execute(body: string, env: Env): Promise<Response> {
   const zoneID = env.CLOUDFLARE_ZONE_ID;
 
   if (!apiToken) {
-    return new Response('API Token is required.', { status: 400 })
+    return error(400, 'Cloudflare API token is required.');
   }
 
   if (!zoneID) {
-    return new Response('Zone ID is required.', { status: 400 })
+    return error(400, 'Cloudflare zone ID is required.');
   }
 
   const url = `https://api.cloudflare.com/client/v4/zones/${zoneID}/purge_cache`;
