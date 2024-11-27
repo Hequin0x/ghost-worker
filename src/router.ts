@@ -6,12 +6,9 @@ import withAuthenticatedWebHook from './handlers/security/webhook-authenticator'
 
 const router = AutoRouter({ base: '/api' });
 
-// Validate the ghost webhook authenticity
 router.all('*', withAuthenticatedWebHook)
-  // Post cache purge
   .post('/cache/post/updated', PostUpdated)
   .post('/cache/post/published', PostPublished)
-  // Site cache purge
   .post('/cache/site/changed', SiteChanged);
 
 export default router;
