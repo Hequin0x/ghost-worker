@@ -8,7 +8,9 @@ async function withAuthenticatedWebHook(request: IRequest, env: Env): Promise<Re
     return error(401, 'Missing or invalid x-ghost-signature header.');
   }
 
-  const [ghostHmac, timestamp] = signature.split(',');
+  const parts = signature.split(',');
+  const ghostHmac = parts[0].split("=")[1]
+  const timestamp = parts[1].split("=")[1]
 
   if (!ghostHmac || !timestamp) {
     return error(401, 'Missing parts in x-ghost-signature header.')
@@ -16,10 +18,10 @@ async function withAuthenticatedWebHook(request: IRequest, env: Env): Promise<Re
 
   const hmac = crypto
     .createHmac('sha256', env.GHOST_SECRET)
-    .update(JSON.stringify(request.body) + timestamp)
+    .update(JSON.stringify(request.body)+timestamp)
     .digest('hex');
 
-  if (ghostHmac !== `sha256=${hmac}`) {
+  if (ghostHmac !== hmac) {
     return error(401, 'Invalid ghost signature.');
   }
 }
