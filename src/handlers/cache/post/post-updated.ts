@@ -9,7 +9,7 @@ import HostUtils from '../../../utils/HostUtils';
  * @param env
  * @constructor
  */
-async function PostUpdated(request: IRequest, env: Env): Promise<Response>{
+export default async function PostUpdated(request: IRequest, env: Env): Promise<Response>{
   const updatedPost: PostCreateUpdateModel = await request.json();
 
   if (!updatedPost) {
@@ -33,5 +33,3 @@ async function PostUpdated(request: IRequest, env: Env): Promise<Response>{
 
   return purgeCacheByURL(urlsToPurge, env);
 }
-
-export default PostUpdated;

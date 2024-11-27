@@ -6,7 +6,7 @@ import { IRequest } from 'itty-router';
  * @param env
  * @constructor
  */
-async function PostDeleted(request: IRequest, env: Env): Promise<Response>{
+export default async function PostDeleted(request: IRequest, env: Env): Promise<Response>{
   const test: string = await request.json();
   console.log(JSON.parse(JSON.stringify(test)));
   /*const deletedPost: PostDeleteModel = await request.json();
@@ -33,5 +33,3 @@ async function PostDeleted(request: IRequest, env: Env): Promise<Response>{
   return purgeCacheByURL(urlsToPurge, env);*/
   return new Response('Post deleted.', { status: 200 });
 }
-
-export default PostDeleted;
