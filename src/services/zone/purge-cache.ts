@@ -45,7 +45,7 @@ async function execute(body: string, env: Env): Promise<Response> {
   const result = await response.json();
   const jsonStr = JSON.stringify(result);
 
-  console.log(`Purge cache for zone: ${zoneID} ${response.ok ? 'succeeded' : 'failed'}, response: ${jsonStr}.`);
+  console.log(`Purge cache for zone '${zoneID}' ${response.ok ? 'succeeded' : 'failed'}.`);
 
   return new Response(jsonStr, { status: response.status });
 }
