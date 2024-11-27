@@ -1,6 +1,6 @@
 {
   "name": "ghost-worker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "deploy": "wrangler publish",
@@ -8,8 +8,9 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241112.0",
-    "itty-router": "^3.0.12",
+    "@types/node": "^22.10.0",
+    "itty-router": "^5.0.18",
     "typescript": "^5.6.3",
-    "wrangler": "^3.88.0"
+    "wrangler": "^3.91.0"
   }
 }

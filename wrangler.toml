@@ -1,6 +1,7 @@
 name = "ghost-worker"
-main = "src/worker.ts"
+main = "src/router.ts"
 compatibility_date = "2023-05-30"
+compatibility_flags = [ "nodejs_compat_v2" ]
 
 [placement]
 mode = "smart"

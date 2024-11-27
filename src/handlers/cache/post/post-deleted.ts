@@ -1,7 +1,4 @@
 import { IRequest } from 'itty-router';
-import HostUtils from '../../../utils/HostUtils';
-import { purgeCacheByURL } from '../../../services/zone/purge-cache';
-import { PostDeleteModel } from '../../../models/ghost/post/post-delete-model';
 
 /**
  * Purge cache for post deleted.
