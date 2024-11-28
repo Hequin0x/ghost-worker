@@ -1,24 +1,23 @@
 import { error } from 'itty-router';
 
-export async function purgeCacheByURL(URLs: string[], env: Env): Promise<Response> {
-  const { CLOUDFLARE_ZONE_ID: zoneID } = env;
+export async function purgeCacheByURL(URLs: string[], env: Env, zoneID: string): Promise<Response> {
   const body = JSON.stringify({ files: URLs });
 
   console.log(`Purging URLs: ${URLs} from cache for zone: ${zoneID}.`);
 
-  return execute(body, env);
+  return execute(body, env, zoneID);
 }
 
-export async function purgeAllCache(env: Env): Promise<Response> {
-  console.log(`Purging all cache for zone: ${env.CLOUDFLARE_ZONE_ID}.`);
-  return execute(`{"purge_everything": true}`, env);
+export async function purgeAllCache(env: Env, zoneID: string): Promise<Response> {
+  console.log(`Purging all cache for zone: ${zoneID}.`);
+  return execute(`{"purge_everything": true}`, env, zoneID);
 }
 
-async function execute(body: string, env: Env): Promise<Response> {
-  const { CLOUDFLARE_API_TOKEN: apiToken, CLOUDFLARE_ZONE_ID: zoneID } = env;
+async function execute(body: string, env: Env, zoneID: string): Promise<Response> {
+  const { CLOUDFLARE_API_TOKEN: apiToken } = env;
 
-  if (!apiToken || !zoneID) {
-    return error(400, `Cloudflare ${!apiToken ? 'API token' : 'zone ID'} is required.`);
+  if (!apiToken) {
+    return error(400, `Cloudflare API token is required.`);
   }
 
   const response = await fetch(`https://api.cloudflare.com/client/v4/zones/${zoneID}/purge_cache`, {
