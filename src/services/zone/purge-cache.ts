@@ -1,10 +1,8 @@
 import { error } from 'itty-router';
 
 export async function purgeCacheByURL(URLs: string[], env: Env, zoneID: string): Promise<Response> {
-  const body = JSON.stringify({ files: URLs });
-
+  const body: string = JSON.stringify({ files: URLs });
   console.log(`Purging URLs: ${URLs} from cache for zone: ${zoneID}.`);
-
   return execute(body, env, zoneID);
 }
 
@@ -20,7 +18,7 @@ async function execute(body: string, env: Env, zoneID: string): Promise<Response
     return error(400, `Cloudflare API token is required.`);
   }
 
-  const response = await fetch(`https://api.cloudflare.com/client/v4/zones/${zoneID}/purge_cache`, {
+  const response: Response = await fetch(`https://api.cloudflare.com/client/v4/zones/${zoneID}/purge_cache`, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -29,8 +27,11 @@ async function execute(body: string, env: Env, zoneID: string): Promise<Response
     body: JSON.stringify(body)
   });
 
-  const result = await response.json();
-  console.log(`Purge cache for zone '${zoneID}' ${response.ok ? 'succeeded' : 'failed'}.`);
-
-  return new Response(JSON.stringify(result), { status: response.status });
+  try {
+    const result: unknown = await response.json();
+    console.log(`Purge cache for zone '${zoneID}' ${response.ok ? 'succeeded' : 'failed'}.`);
+    return new Response(JSON.stringify(result), { status: response.status });
+  } catch (exception) {
+    return error(500, `Failed to parse response from Cloudflare API: ${exception}`);
+  }
 }

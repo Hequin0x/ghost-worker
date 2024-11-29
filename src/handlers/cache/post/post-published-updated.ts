@@ -11,17 +11,21 @@ import HostUtils from '../../../utils/HostUtils';
  * @returns {Promise<Response>} - The response indicating the result of the cache purge operation.
  */
 export default async function PostPublishedUpdated(request: IRequest, env: Env): Promise<Response> {
-  const zoneID = request.params.zoneID;
+  const zoneID: string = request.params.zoneID;
   if (!zoneID) return error(400, 'Zone ID is required.');
 
-  const publishedUpdatedPost: PostPublishUpdateModel = await request.json();
-  if (!publishedUpdatedPost) return error(400, 'Post is required.');
+  try {
+    const publishedUpdatedPost: PostPublishUpdateModel = await request.json();
+    if (!publishedUpdatedPost) return error(400, 'Post is required.');
 
-  const postURL = publishedUpdatedPost.post.current.url;
-  if (!postURL) return error(400, 'Post URL is required.');
+    const postURL: string = publishedUpdatedPost.post.current.url;
+    if (!postURL) return error(400, 'Post URL is required.');
 
-  const websiteURL = HostUtils.getHostFromURL(postURL, true);
-  const urlsToPurge = [websiteURL, `${websiteURL}/sitemap.xml`];
+    const websiteURL: string = HostUtils.getHostFromURL(postURL, true);
+    const urlsToPurge: string[] = [websiteURL, `${websiteURL}/sitemap.xml`];
 
-  return purgeCacheByURL(urlsToPurge, env, zoneID);
+    return purgeCacheByURL(urlsToPurge, env, zoneID);
+  } catch {
+    return error(400, 'Invalid request body.');
+  }
 }
